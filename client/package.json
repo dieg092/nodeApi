@@ -1,0 +1,40 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": {
+    "/api/*": {
+      "target": "http://localhost:5000"
+    }
+  },
+  "browserslist": [
+    "last 1 version",
+    "> 1%"
+  ],
+  "dependencies": {
+    "axios": "^0.18.0",
+    "browserslist": "^4.3.5",
+    "jquery": "^3.3.1",
+    "jquery-ui": "^1.12.1",
+    "materialize-css": "^1.0.0",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-redux": "^5.1.0",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.4",
+    "redux": "^4.0.1",
+    "redux-form": "^7.4.2",
+    "redux-thunk": "^2.3.0"
+  },
+  "scripts": {
+    "build-css": "node-sass-chokidar ./src/styles -o ./public/css",
+    "watch-css": "npm run build-css && node-sass-chokidar ./src/styles -o ./public/css --watch --recursive",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  }
+}
