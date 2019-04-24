@@ -13,7 +13,7 @@ import validateEmail from '../../../utils/validateEmail';
 import passwordStrong from '../../../utils/passwordStrong';
 import passwordsCompare from '../../../utils/passwordsCompare';
 
-class SignUpForm extends Component {
+class SignUpFormRequest extends Component {
   constructor(props) {
     super(props);
 
@@ -22,7 +22,7 @@ class SignUpForm extends Component {
   renderFields() {
     let formF = formFields;
 
-    return _.map(formF, ({ label, name, type, icon }) => {
+    return _.map(formF(this.props.fields), ({ label, name, type, icon }) => {
       return <Field key={name} label={label} type={type} name={name} icon={icon} component={AuthField} />
     });
   }
@@ -30,22 +30,20 @@ class SignUpForm extends Component {
   onSubmitSignUp(event) {
     event.preventDefault();
 
-    if ($("#termino").is(':checked') || $("#terminos").is(':checked') && !this.props.invalid) {
+    if (($("#termino").is(':checked') || $("#terminos").is(':checked')) && !this.props.invalid) {
       this.setState({ termsClicked: false });
-      this.props.submitSignUp(this.props.signUpForm.values, this.props.history);
+      this.props.submitSignUp(this.props.signUpForm.values, this.props.history, this.props.lang, this.props.fields);
     } else {
       this.setState({ termsClicked: true });
     }
-
   }
 
   onShowConditions(event) {
     event.preventDefault();
-    //this.props.showConditions();
+    this.props.showConditions();
   }
 
   render() {
-    console.log(this.props.invalid)
     return (
         <div>
           <form onSubmit={this.onSubmitSignUp.bind(this)}>
@@ -54,12 +52,11 @@ class SignUpForm extends Component {
 
                 <p className="margin-left-7">
                     <label>
-                      <input id={this.props.clientAccess ? 'terminos' : 'termino'} name="terminos" type="checkbox" />
-                      <span style={{ cursor: 'default ' }}>Acepto los <a className="pointer" onClick={this.onShowConditions.bind(this)}>Términos y condicioes</a></span>
-
+                      <input id="terminos" name="terminos" type="checkbox" />
+                      <span style={{ cursor: 'default ' }}>{this.props && this.props.fields && this.props.fields.CONDITIONS && this.props.fields.CONDITIONS.pre_title} <a className="pointer" onClick={this.onShowConditions.bind(this)}>{this.props && this.props.fields && this.props.fields.CONDITIONS && this.props.fields.CONDITIONS.title}</a></span>
                     </label>
                   </p>
-                {this.state.termsClicked && <p className="red-text">Tienes que aceptar los términos y condiciones</p>}
+                {this.state.termsClicked && <p className="red-text">{this.props && this.props.fields && this.props.fields.CONDITIONS && this.props.fields.CONDITIONS.you_must}</p>}
 
             </div>
 
@@ -67,8 +64,8 @@ class SignUpForm extends Component {
                 <p className="red-text margin-left-35">{this.props.errorSignUp}</p>
             }
             <div className="card-action center">
-              <button type="submit" className="btn-large teal btn-flat white-text no-uppercase" disabled={!this.props.invalid ? false : true}>
-                Registrarme
+              <button type="submit" className="btn-large waves-effect waves-light white-text no-uppercase" disabled={!this.props.invalid ? false : true}>
+              {this.props && this.props.fields && this.props.fields.SIGN_UP && this.props.fields.SIGN_UP.me_title}
               </button>
             </div>
           </form>
@@ -77,12 +74,12 @@ class SignUpForm extends Component {
   }
 }
 
-function validate(values) {
+const validate = ( values, props )  => {
   const errors = {};
 
-  errors.emailSignUp = validateEmail(values.emailSignUp || '');
-  errors.passwordSignUp = passwordStrong(values.passwordSignUp || '');
-  errors.passwordSignUpRepeat = passwordsCompare(values.passwordSignUp, values.passwordSignUpRepeat || '', '');
+  errors.emailSignUp = validateEmail(values.emailSignUp || '', props.fields);
+  errors.passwordSignUp = passwordStrong(values.passwordSignUp || '', props.fields);
+  errors.passwordSignUpRepeat = passwordsCompare(values.passwordSignUp, values.passwordSignUpRepeat || '', props.fields);
 
   _.each(formFields, ({ name, noValueError }) => {
     if (!values[name]) {
@@ -96,8 +93,10 @@ function validate(values) {
 function mapStateToProps(state) {
   const signUpForm = state.form.signUpForm;
   const errorSignUp = state.user.errorSignUp;
+  const lang = state.general.lang;
+  const fields = state.general.fields;
 
-  return { signUpForm, errorSignUp };
+  return { signUpForm, errorSignUp, lang, fields };
 }
 
 export default compose(
@@ -107,4 +106,4 @@ export default compose(
     form: 'signUpForm',
     destroyOnUnmount: false
   })
-)(withRouter(SignUpForm));
+)(withRouter(SignUpFormRequest));

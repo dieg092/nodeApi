@@ -1,4 +1,4 @@
-export default (password, password2) => {
+export default (password, password2, fields) => {
   let diferentPass = true;
 
   if (password === password2) {
@@ -6,7 +6,7 @@ export default (password, password2) => {
   }
 
   if (diferentPass) {
-    return `Las contraseñas no coinciden`;
+    return fields.ERROR && fields.ERROR.no_match_pass;
   }
 
   return;

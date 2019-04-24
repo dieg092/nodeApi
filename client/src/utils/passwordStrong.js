@@ -1,6 +1,6 @@
 const re = /^(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])/;
 
-export default password => {
+export default (password, fields) => {
   let invalidPassword = true;
 
   if (re.test(password)) {
@@ -8,7 +8,7 @@ export default password => {
   }
 
   if (invalidPassword) {
-    return `La contraseña tiene que tener como mínimo: 8 carácteres, un número y una letra minúscula y una mayúscula`;
+    return fields.ERROR && fields.ERROR.pass_requires;
   }
 
   return;

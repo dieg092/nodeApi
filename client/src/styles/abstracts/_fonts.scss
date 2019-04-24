@@ -14,6 +14,10 @@
   font-size: 18px;
 }
 
+.font-weight-600 {
+  font-weight: 600;
+}
+
 @media screen and (max-width: 992px) {
   .font-40-custom {
     font-size: 30px
@@ -36,4 +40,8 @@
   .font-title {
     font-size: 2.2rem;
   }
+}
+
+.font-h3-small-rem {
+  font-size: 2.5rem;
 }

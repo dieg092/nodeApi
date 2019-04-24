@@ -11,7 +11,7 @@ const taskRoutes = require('./api/routes/task');
 const userRoutes = require('./api/routes/user');
 require('./api/services/passport');
 
-mongoose.connect('mongodb://localhost:27017/bgroup', {
+mongoose.connect('mongodb://localhost:27017/nodeApi', {
   useNewUrlParser: true,
   useCreateIndex: true,
 });

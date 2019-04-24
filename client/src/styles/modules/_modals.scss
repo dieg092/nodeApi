@@ -1,21 +1,28 @@
 #login {
   .modal {
     width: 503px !important;
-    height: 465px !important;
+    height: 475px !important;
   }
 }
 
-#request, #remember {
+#request {
+  .modal {
+    width: 503px !important;
+    height: 550px !important;
+  }
+}
+
+#remember {
   .modal {
     width: 600px !important;
-    height: 360px !important;
+    height: 315px !important;
   }
 }
 
 #success-request {
   .modal {
     width: 950px !important;
-    height: 320px !important;
+    height: 255px !important;
   }
 }
 
@@ -38,6 +45,18 @@
   }
 }
 
+.close-icon {
+  font-size: 45px;
+  margin-left: -5px;
+  padding: 13px;
+  margin-right: 0px !important;
+}
+
+.modal-title {
+  margin-right: 60px;
+  padding: 18px;
+}
+
 .container-body {
   overflow-x: hidden;
   .body-login {
@@ -49,6 +68,12 @@
        border-top: solid 0.5px grey;
      }
   }
+}
+
+.remember-success {
+  padding-left: 40px;
+  padding-bottom: 40px;
+  padding-right: 40px;
 }
 
 .container-login {

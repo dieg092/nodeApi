@@ -1,0 +1,27 @@
+.container-footer {
+  background: white;
+  margin-bottom: 0px !important;
+  margin-top: 100px;
+  background-image: url("/images/footer.png");
+  background-repeat: no-repeat;
+  max-width: 100%;
+  max-Height: 80%;
+  background-size: cover;
+
+  .link {
+    color: rgb(25, 25, 25);
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin: 3px;
+    cursor: pointer;
+  }
+  .copyright {
+    color: rgb(25, 25, 25);
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin: 3px;
+  }
+  .link:hover {
+    font-weight: 500;
+  }
+}

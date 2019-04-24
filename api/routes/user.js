@@ -8,17 +8,33 @@ const checkAuth = require('../middleware/check-auth');
 router.post("/signup", UserController.user_signup);
 
 router.post('/login', passport.authenticate('local',
-    { successRedirect: '/user/current_user', failureRedirect: '/' }
+    { successRedirect: './current_user', failureRedirect: '/' }
 ));
 
 router.get('/current_user', (req, res) => {
-  res.send(req.user);
+   res.send({
+     'user': req.user,
+     'locale': req.get('accept-language').split('-')[0]
+   });
 });
 
 router.get('/logout', (req, res) => {
+  // req.headers.referer.split('/')[3]
   req.logout();
-  res.redirect('/user/current_user');
+  res.redirect('/');
 });
+
+
+
+router.get('/signup/:lang/:token/:email',  UserController.user_signup_token_email);
+
+router.get('/regenerate/:lang/:email', UserController.user_regenerate_verify);
+
+router.get('/:lang/:token', UserController.user_token);
+
+router.post('/remember/:lang', UserController.user_remember_password);
+
+router.post('/remember/:lang/:token', UserController.user_remember_token);
 
 router.delete("/:userId", checkAuth, UserController.user_delete);
 

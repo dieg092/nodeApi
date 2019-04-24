@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import * as actions from '../actions';
-import RouterAdmin from './admin/RouterAdmin';
-import Landing from './containers/Landing';
-import Login from './containers/Login';
-import SignUp from './containers/SignUp';
+import Router from './Router';
 
 class App extends Component {
 	componentDidMount() {
@@ -13,25 +10,16 @@ class App extends Component {
 	}
 
 	renderRouter() {
-		if (this.props && this.props.userLogged) {
-			<RouterAdmin />
-		}
-
 		return (
-			<div>
-				<Route exact path="/" render={() => (this.props.userLogged && this.props.userLogged.rol ? ( <Redirect to="/admin/usuarios"/> ) : (this.props.userLogged && !this.props.userLogged.rol ? ( <Redirect to="/laboral"/> ) : ( <Landing />)))} />
-				<Route exact path="/login" render={() => (this.props.userLogged && this.props.userLogged.rol ? ( <Redirect to="/admin/usuarios"/> ) : (this.props.userLogged && !this.props.userLogged.rol ? ( <Redirect to="/laboral"/> ) : ( <Login />)))} />
-				<Route exact path="/signup" render={() => (this.props.userLogged && this.props.userLogged.rol ? ( <Redirect to="/admin/usuarios"/> ) : (this.props.userLogged && !this.props.userLogged.rol ? ( <Redirect to="/laboral"/> ) : ( <SignUp />)))} />
-			</div>
+			<Router />
 		)
 	}
 
 	render () {
-		console.log(this.props.userLogged)
 		return (
 				<div>
 				  <BrowserRouter>
-						{this.renderRouter()}
+						{this.props && this.props.userLogged !== null && this.renderRouter()}
 					</BrowserRouter>
 				</div>
 		);
@@ -39,8 +27,8 @@ class App extends Component {
 };
 
 function mapStateToProps({ user }) {
-   const { userLogged } = user;
-   return { userLogged };
+   const { userLogged, locale } = user;
+   return { userLogged, locale };
 }
 
 export default connect(mapStateToProps, actions)(App);

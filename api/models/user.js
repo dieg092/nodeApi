@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const mongoose_delete = require('mongoose-delete');
 const bcrypt   = require('bcrypt-nodejs');
 const { Schema } = mongoose;
+
 
 const userSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -11,8 +13,12 @@ const userSchema = mongoose.Schema({
     match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
   },
   password: { type: String, required: true },
-  date: { type: Date, default: Date.now }
+  _tokens: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Token' }],
+  isVerified: { type: Boolean, default: false },
+  created_at: { type: Date, default: Date.now }
 });
+
+userSchema.plugin(mongoose_delete);
 
 // checking if password is valid
 userSchema.methods.validPassword = function (password)  {
